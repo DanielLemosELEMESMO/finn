@@ -8,20 +8,58 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
+
+/* to access "prefers-colors-cheme" or change it in js, use codes like this:
+* window.matchMedia('(prefers-color-scheme: dark)')
+* window.matchMedia('(prefers-color-scheme: dark)').matches
+* window.matchMedia('(prefers-color-scheme: light)').matches
+* window.matchMedia('(prefers-color-scheme: no-preference)').matches
+* window.matchMedia('(prefers-color-scheme: no-preference)').addEventListener('change', e => {
+*   console.log(e.matches)
+* })
+*/
+
 
 body {
+  height: fit-content;
+  min-height: 100vh;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
 }
