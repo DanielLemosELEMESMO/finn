@@ -11,7 +11,7 @@ interface FinanceManager{
 }
 // Diz o tipo de conta que vai ser, se será receita ou despesa
 interface KindOfCount extends FinanceManager{
-    tipoDeConta: string | string
+    tipoDeConta: string
 }
 
 // tipo de lembrete para receber ou pagar algo
