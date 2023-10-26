@@ -1,11 +1,11 @@
 'use client'
 
 import './reminder.css'
-import { LembreteSaida, LembreteEntrada, listaDeLembretes } from "../../types";
+import { KindOfCount, listaDeLembretes } from "../../types";
 import React, { useState, useEffect } from 'react';
 import ListDivisor from '../listComponents';
 
-const ReminderListItem = ({ lembrete, alternarStatus }: { lembrete: LembreteSaida | LembreteEntrada, alternarStatus?: Function }) => {
+const ReminderListItem = ({ lembrete, alternarStatus }: { lembrete: KindOfCount, alternarStatus?: Function }) => {
 
     return (
         <div className="grid grid-cols-3 my-1">
@@ -27,8 +27,7 @@ const ReminderList = () => {
     const [lembretes, setLembretes] = useState<listaDeLembretes>();
 
     // definindo valores de exemplo para a lista de lembretes
-    const lembretesExemplo: listaDeLembretes = {
-        lembretesSaida: [
+    const lembretesExemplo: listaDeLembretes = [
             {
                 dia: "01",
                 mes: "10",
@@ -42,7 +41,8 @@ const ReminderList = () => {
                         status: "A Pagar",
                         tipo: "Conta",
                         categoria: "Casa",
-                        descricao: "Conta de luz do mês de janeiro"
+                        descricao: "Conta de luz do mês de janeiro",
+                        tipoDeConta: "Saida"
                     },
                     {
                         id: "2",
@@ -52,7 +52,8 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Conta",
                         categoria: "Casa",
-                        descricao: "Conta de água do mês de janeiro"
+                        descricao: "Conta de água do mês de janeiro",
+                        tipoDeConta: "Saida"
                     },
                     {
                         id: "3",
@@ -62,7 +63,8 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Conta",
                         categoria: "Casa",
-                        descricao: "Conta de luz do mês de janeiro"
+                        descricao: "Conta de luz do mês de janeiro",
+                        tipoDeConta: "Saida"
                     },
                 ]
             },
@@ -79,7 +81,8 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Conta",
                         categoria: "Casa",
-                        descricao: "Conta de água do mês de janeiro"
+                        descricao: "Conta de água do mês de janeiro",
+                        tipoDeConta: "Saida"
                     }
                 ]
             },
@@ -96,7 +99,8 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Conta",
                         categoria: "Casa",
-                        descricao: "Conta de luz do mês de janeiro"
+                        descricao: "Conta de luz do mês de janeiro",
+                        tipoDeConta: "Saida"
                     },
                     {
                         id: "6",
@@ -106,13 +110,12 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Conta",
                         categoria: "Casa",
-                        descricao: "Conta de água do mês de janeiro"
+                        descricao: "Conta de água do mês de janeiro",
+                        tipoDeConta: "Saida"
                     }
                 ]
-            }
-        ],
-        lembretesEntrada: [
-            {
+            },
+        {
                 dia: "01",
                 mes: "10",
                 ano: "2023",
@@ -125,7 +128,8 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Salário",
                         categoria: "Trabalho",
-                        descricao: "Salário do mês de janeiro"
+                        descricao: "Salário do mês de janeiro",
+                        tipoDeConta: "Entrada"
                     }
                 ]
             },
@@ -142,7 +146,8 @@ const ReminderList = () => {
                         status: "Pago",
                         tipo: "Salário",
                         categoria: "Trabalho",
-                        descricao: "Salário do mês de janeiro"
+                        descricao: "Salário do mês de janeiro",
+                        tipoDeConta: "Entrada"
                     }
                 ]
             },
@@ -159,33 +164,36 @@ const ReminderList = () => {
                         status: "A Pagar",
                         tipo: "Salário",
                         categoria: "Trabalho",
-                        descricao: "Salário do mês de janeiro"
+                        descricao: "Salário do mês de janeiro",
+                        tipoDeConta: "Entrada"
                     }
                 ]
             }
-        ]
-    }
+        
+    ]
 
     useEffect(() => {
         setLembretes(lembretesExemplo);
-    }, []);
+    },[]);
 
     // altera status de um lembrete especifico, de acordo com o dia e o id do lembrete
     const alternarStatus = (dia: string, id: string) => {
         // cria uma copia de lembretes
-        var lembretesLista = { ...lembretes };
-        var lembreteSaida = lembretesLista?.lembretesSaida?.find((lembreteSaida) => lembreteSaida.dia === dia);
-        var lembreteEntrada = lembretesLista?.lembretesEntrada?.find((lembreteEntrada) => lembreteEntrada.dia === dia);
+        var lembretesLista = { ...lembretesExemplo };
+        var lembreteSaida = lembretesLista.filter((value)=>value.lembretes.filter(value=> value.tipoDeConta === "Saida"));
+        var diaSaida = lembreteSaida.find((lembreteSaida) => lembreteSaida.dia === dia)
+        var lembreteEntrada = lembretesLista.filter((value)=>value.lembretes.filter(value=> value.tipoDeConta === "Entrada"));
+        var diaEntrada = lembreteEntrada.find((lembreteEntrada) => lembreteEntrada.dia === dia);
 
-        if (lembreteSaida) {
-            var lembrete = lembreteSaida.lembretes.find((lembrete) => lembrete.id === id);
+        if (diaSaida) {
+            var lembrete = diaSaida.lembretes.find((lembrete) => lembrete.id === id);
             if (lembrete) {
                 lembrete.status = lembrete.status === "Pago" ? "A Pagar" : "Pago";
             }
         }
 
-        if (lembreteEntrada) {
-            var lembrete = lembreteEntrada.lembretes.find((lembrete) => lembrete.id === id);
+        if (diaEntrada) {
+            var lembrete = diaEntrada.lembretes.find((lembrete) => lembrete.id === id);
             if (lembrete) {
                 lembrete.status = lembrete.status === "Pago" ? "A Pagar" : "Pago";
             }
@@ -205,17 +213,17 @@ const ReminderList = () => {
                 <h3 className='espacoso'>A Receber</h3>
                 <div className="reminder-list-entrada-list">
                     {
-                        lembretes?.lembretesEntrada?.map((lembreteEntrada) => {
+                        lembretes?.map((diaEntrada) => {
                             return (
                                 <div className="reminder-list-entrada-list-item">
                                     <div className='day-title-container'>
-                                        <ListDivisor text={lembreteEntrada.dia} />
+                                        <ListDivisor text={diaEntrada.dia} />
                                     </div>
                                     <div className='reminders-list ml-1'>
                                         {
-                                            lembreteEntrada.lembretes.map((lembreteEntrada, index) => {
+                                            diaEntrada.lembretes.map((diaEntrada, index) => {
                                                 return (
-                                                    <ReminderListItem key={index} lembrete={lembreteEntrada} alternarStatus={alternarStatus} />
+                                                    <ReminderListItem key={index} lembrete={diaEntrada} alternarStatus={alternarStatus} />
                                                 );
                                             })
                                         }
@@ -228,17 +236,17 @@ const ReminderList = () => {
                 <h3 className='espacoso'>A Pagar</h3>
                 <div className="reminder-list-saida-list">
                     {
-                        lembretes?.lembretesSaida?.map((lembreteSaida) => {
+                        lembretes?.map((diaSaida) => {
                             return (
                                 <div className="reminder-list-saida-list-item">
                                     <div className='day-title-container'>
-                                        <ListDivisor text={lembreteSaida.dia} />
+                                        <ListDivisor text={diaSaida.dia} />
                                     </div>
                                     <div className='reminders-list ml-1'>
                                         {
-                                            lembreteSaida.lembretes.map((lembreteSaida) => {
+                                            diaSaida.lembretes.map((diaSaida) => {
                                                 return (
-                                                    <ReminderListItem lembrete={lembreteSaida} alternarStatus={alternarStatus} />
+                                                    <ReminderListItem lembrete={diaSaida} alternarStatus={alternarStatus} />
                                                 );
                                             })
                                         }

@@ -1,5 +1,5 @@
-// tipo a pagar
-type LembreteSaida = {
+// Controle das financas
+interface FinanceManager{
     id: string;
     nome: string;
     valor: number;
@@ -9,38 +9,22 @@ type LembreteSaida = {
     categoria: string;
     descricao: string;
 }
-
-type LembreteEntrada = {
-    id: string;
-    nome: string;
-    valor: number;
-    data: string;
-    status: string;
-    tipo: string;
-    categoria: string;
-    descricao: string;
+// Diz o tipo de conta que vai ser, se será receita ou despesa
+interface KindOfCount extends FinanceManager{
+    tipoDeConta: string | string
 }
 
+// tipo de lembrete para receber ou pagar algo
 type listaDeLembretes = {
-    lembretesSaida?:
-    {
         dia: string,
         mes: string,
         ano: string,
-        lembretes: LembreteSaida[]
-    }[],
-    lembretesEntrada?:
-    {
-        dia: string,
-        mes: string,
-        ano: string,
-        lembretes: LembreteEntrada[]
+        lembretes: KindOfCount[]
     }[]
-}
 
 // type listaDeLembretes = {
 //     lembretesSaida?: LembreteSaida[],
 //     lembretesEntrada?: LembreteEntrada[]
 // }
 
-export type { LembreteSaida, LembreteEntrada, listaDeLembretes };
+export type { KindOfCount, listaDeLembretes };

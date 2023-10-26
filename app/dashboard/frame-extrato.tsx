@@ -7,7 +7,7 @@ const LimitedStatement = () => {
             <h2>Histórico (Mes 8)</h2>
             {/* map no mes 8 */}
             
-            <StatementList />
+            <StatementList selectedMonth={""} />
         </div>
     );
 };
